@@ -10,6 +10,7 @@ var server = restify.createServer({
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
+
 server.use(
   function crossOrigin(req,res,next){
     res.header("Access-Control-Allow-Origin", "*");
@@ -21,7 +22,11 @@ server.use(
 // Create a simple mongoose model 'Note'
 var NoteSchema = new mongoose.Schema({
     title : { type : String, required : true },
-    content: { type : String, required : true }
+    content: { type : String, required : true },
+    meta: {
+        votes: String,
+        favs: String
+    }
 });
 
 var Note = mongoose.model('notes', NoteSchema);
@@ -35,7 +40,7 @@ mongoose.connect('mongodb://localhost/myapp');
 server.get('/notes', notes.query());
 server.get('/notes/:id', notes.detail());
 server.post('/notes', notes.insert());
-server.patch('/notes/:id', notes.update());
+server.put('/notes/:id', notes.update());
 server.del('/notes/:id', notes.remove());
 
 server.listen(3000, function () {
