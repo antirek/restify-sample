@@ -43,6 +43,14 @@ server.post('/notes', notes.insert());
 server.put('/notes/:id', notes.update());
 server.del('/notes/:id', notes.remove());
 
+
+server.post('/upload', function (req, res) {
+
+    console.log('files:', req.files);
+    console.log('sound path:', req.files.sound.path);    
+    res.send('ok');
+});
+
 server.listen(3000, function () {
     console.log('%s listening at %s', server.name, server.url);
 });
