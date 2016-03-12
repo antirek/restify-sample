@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Getting started with JSON Form</title>
+    <link rel="stylesheet" style="text/css" href="bower_components/jsonform/deps/opt/bootstrap.css" />
+  </head>
+  <body>
+    <h1>Getting started with JSON Form</h1>
+    <form></form>
+    <div id="res" class="alert"></div>
+    <script type="text/javascript" src="bower_components/jsonform/deps/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/jsonform/deps/underscore.js"></script>
+    <script type="text/javascript" src="bower_components/jsonform/deps/opt/jsv.js"></script>
+    <script type="text/javascript" src="bower_components/jsonform/lib/jsonform.js"></script>
+    <script type="text/javascript">
+      $.getJSON('http://localhost:3000/notes/schema', function (data) {
+        console.log(data);
+
+        $('form').jsonForm({
+          schema: data,
+          onSubmit: function (errors, values) {
+
+            console.log(values);
+            if (errors) {
+              $('#res').html('<p>I beg your pardon?</p>');
+            }
+            else {
+              $('#res').html('<p>Hello ' + values.title + '.' +
+                (values.content ? '<br/>You are ' + values.content + '.' : '') +
+                '</p>');
+            }
+          }
+        });
+      });
+
+      
+    </script>
+  </body>
+</html>

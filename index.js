@@ -22,10 +22,12 @@ server.use(
 
 // Create a simple mongoose model 'Note'
 var NoteSchema = new mongoose.Schema({
-    title : { type : String, required : true },
-    content: { type : String, required : true },
+    title : { type : String, required : true, title: 'Title' },
+    content: { type : String, required : true, title: 'Content', format: 'date'},
     meta: {
-        votes: String,
+        votes: {
+            type: String, required: true, title: 'Votes'
+        },
         favs: String
     }
 });
@@ -56,7 +58,6 @@ server.del('/notes/:id', notes.remove());
 
 
 server.post('/upload', function (req, res) {
-
     console.log('files:', req.files);
     console.log('sound path:', req.files.sound.path);    
     res.send('ok');
