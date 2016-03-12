@@ -1,6 +1,7 @@
 var restify = require('restify');
 var restifyMongoose = require('restify-mongoose');
 var mongoose = require('mongoose');
+var jsonform = require('mongoose-jsonform');
 
 var server = restify.createServer({
     name: 'restify.mongoose.examples.notes',
@@ -29,6 +30,10 @@ var NoteSchema = new mongoose.Schema({
     }
 });
 
+NoteSchema.plugin(jsonform, {
+  excludedPaths: ['_id', '__v'] //these paths are generally exceluded
+});
+
 var Note = mongoose.model('notes', NoteSchema);
 
 // Now create a restify-mongoose resource from 'Note' mongoose model
@@ -38,6 +43,12 @@ mongoose.connect('mongodb://localhost/myapp');
 
 // Serve resource notes with fine grained mapping control
 server.get('/notes', notes.query());
+
+server.get('/notes/schema', function(req, res) {
+    var out = (new Note()).jsonform();
+    res.end(JSON.stringify(out));
+});
+
 server.get('/notes/:id', notes.detail());
 server.post('/notes', notes.insert());
 server.put('/notes/:id', notes.update());

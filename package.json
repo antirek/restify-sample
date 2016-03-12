@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "mongoose": "^4.4.6",
+    "mongoose-jsonform": "0.0.9",
     "mongoose-restify": "^1.0.3",
     "restify": "^4.0.4",
     "restify-mongoose": "^0.2.6"
